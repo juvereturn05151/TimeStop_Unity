@@ -29,6 +29,7 @@ public class EnemyAgent : MonoBehaviour
             {
                 _currentState.OnExit();
             }
+
             _currentState = value;
             _currentState.OnEntry();
         }

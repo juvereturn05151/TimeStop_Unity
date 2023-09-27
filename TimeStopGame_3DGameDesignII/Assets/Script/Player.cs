@@ -1,58 +1,72 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
+using JuveProduction.GameSystem;
 
 public class Player : MonoBehaviour
 {
+    private float _excitement;
 
-    private PlayerMovement playerMovement;
-    private PlayerAction playerAction;
+    private PlayerMovement _playerMovement;
 
-    public Slider exciteSlider;
+    private GameplayUIManager _gameplayUIManager;
 
-    // Start is called before the first frame update
-    void Start()
+    public float Excitement
     {
-        playerMovement = GetComponent<PlayerMovement>();
-        playerAction = GetComponent<PlayerAction>();
+        get { return _excitement; }
+        private set
+        {
+            _excitement = Mathf.Clamp01(value);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
-    }
+        _playerMovement = GetComponent<PlayerMovement>();
 
-
-    public void increaseExcitement(float excite)
-    {
-        Debug.Log("exciteSlider.value" + exciteSlider.value);
-
-        exciteSlider.value += excite;
-    }
-
-    public void decreaseExcitement(float decreaseRate)
-    {
-        exciteSlider.value -= decreaseRate * Time.deltaTime;
-    }
-
-    public PlayerMovement GetPlayerMovement()
-    {
-        return playerMovement;
-    }
-
-    public PlayerAction GetPlayerAction()
-    {
-        return playerAction;
+        if (GameplayUIManager.HasInstance) 
+        {
+            _gameplayUIManager = GameplayUIManager.Instance;
+        }
+         
+        Excitement = 0;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Bullet")
+        if (other.gameObject.CompareTag("Bullet"))
         {
             Destroy(other.gameObject);
-            this.gameObject.SetActive(false);
+            gameObject.SetActive(false);
+        }
+    }
+
+    public void IncreaseExcitement(float increaseRate)
+    {
+        Excitement += increaseRate;
+        OnExcitementChange();
+    }
+
+    public void DecreaseExcitement(float decreaseRate)
+    {
+        Excitement -= decreaseRate * Time.deltaTime;
+        OnExcitementChange();
+    }
+
+    public void SetExcitement(float targetExcitement) 
+    {
+        Excitement = targetExcitement;
+        OnExcitementChange();
+    }
+
+    public PlayerMovement GetPlayerMovement()
+    {
+        return _playerMovement;
+    }
+
+    private void OnExcitementChange() 
+    {
+        if (_gameplayUIManager != null)
+        {
+            _gameplayUIManager.WhenExcitementChanged?.Invoke(Excitement);
         }
     }
 }

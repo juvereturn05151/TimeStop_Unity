@@ -1,9 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-
-//Contain Agent Awareness Technique
-
 public class SoundEmitter : MonoBehaviour
 {
     public string tagWall = "Wall";
@@ -17,23 +13,29 @@ public class SoundEmitter : MonoBehaviour
     // optional
     public Dictionary<string, float> wallTypes;
 
-    void Start()
+    private void Awake()
     {
         receiverDic = new Dictionary<int, SoundReceiver>();
-        if (emitterObject == null)
+
+        if (emitterObject == null) 
+        {
             emitterObject = gameObject;
+        } 
     }
 
-    void Update() {
+    private void Update() {
         Emit();
     }
 
     public void OnTriggerEnter(Collider coll)
     {
-        SoundReceiver receiver;
-        receiver = coll.gameObject.GetComponent<SoundReceiver>();
-        if (receiver == null)
+        SoundReceiver receiver = coll.gameObject.GetComponent<SoundReceiver>();
+
+        if (receiver == null) 
+        {
             return;
+        }
+            
         int objId = coll.gameObject.GetInstanceID();
         receiverDic.Add(objId, receiver);
     }
@@ -42,10 +44,13 @@ public class SoundEmitter : MonoBehaviour
 
     public void OnTriggerExit(Collider coll)
     {
-        SoundReceiver receiver;
-        receiver = coll.gameObject.GetComponent<SoundReceiver>();
-        if (receiver == null)
+        SoundReceiver receiver = coll.gameObject.GetComponent<SoundReceiver>();
+
+        if (receiver == null) 
+        {
             return;
+        }
+            
         int objId = coll.gameObject.GetInstanceID();
         receiverDic.Remove(objId);
     }
@@ -72,18 +77,17 @@ public class SoundEmitter : MonoBehaviour
             // optional
             intensity -= GetWallAttenuation(emitterPos, srPos);
 
-            Debug.Log("intensity" + intensity);
-
-            if (this.GetComponent<Player>() != null)
+            if (GetComponent<Player>() != null)
             {
-                this.GetComponent<Player>().increaseExcitement(this.GetComponent<Player>().GetPlayerMovement().GetNoise());
+                GetComponent<Player>().IncreaseExcitement(GetComponent<Player>().GetPlayerMovement().GetNoise());
             }
             
-            // --------
-            if (intensity < sr.soundThreshold)
+            if (intensity < sr.soundThreshold) 
+            {
                 continue;
+            }
+                
             sr.Receive();
-
         }
     }
 
@@ -96,16 +100,20 @@ public class SoundEmitter : MonoBehaviour
         direction.Normalize();
         Ray ray = new Ray(emitterPos, direction);
         RaycastHit[] hits = Physics.RaycastAll(ray, distance);
-        int i;
-        for (i = 0; i < hits.Length; i++)
+
+        for (int i = 0; i < hits.Length; i++)
         {
             GameObject obj;
             string tag;
             obj = hits[i].collider.gameObject;
             tag = obj.tag;
-            if (tag.Equals(tagWall))
+
+            if (tag.Equals(tagWall)) 
+            {
                 attenuation += WallThickNess;
+            }
         }
+
         return attenuation;
     }
 

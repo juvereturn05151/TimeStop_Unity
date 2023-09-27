@@ -1,24 +1,19 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using JuveProduction.GameSystem;
 using UnityEngine;
 
 public class PlayerAction : MonoBehaviour
 {
+    private GameObject _timeStopUI;
+
     private Animator animator;
     private CharacterController characterController;
     private Player player;
-
-    [SerializeField]
-    GameObject TimeStopUI;
-
-    bool crouch = false;
-
-    float normalHeight = 2;
-    float normalCenterY = 0;
-
-    float crouchHeight = 1;
-    float crouchCenterY = -0.5f;
-
+    private bool crouch = false;
+    private float normalHeight = 2;
+    private float normalCenterY = 0;
+    private float crouchHeight = 1;
+    private float crouchCenterY = -0.5f;
     private IEnumerator coroutine;
 
     public GameObject HitBox;
@@ -30,39 +25,37 @@ public class PlayerAction : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         player = GetComponent<Player>();
 
+        if (GameplayUIManager.HasInstance) 
+        {
+            _timeStopUI = GameplayUIManager.Instance.TimeStopUI;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (TimeStopUI.activeSelf)
+        if (_timeStopUI.activeSelf)
         {
-            player.decreaseExcitement(0.1f);
+            player.DecreaseExcitement(0.1f);
         }
 
-        if (player.exciteSlider.value == 0)
+        if (player.Excitement <= 0)
         {
             StopTime(false);
         }
 
         if (Input.GetButtonDown("TimeStop"))
         {
-            //Just for 2nd version
-            player.exciteSlider.value = 1;
+            player.SetExcitement(1);
 
-            Debug.Log("BeforeTimeStop");
-            Debug.Log("TimeStopUI.activeSelf" + TimeStopUI.activeSelf);
-            Debug.Log("player.exciteSlider.value" + player.exciteSlider.value);
-            if (!TimeStopUI.activeSelf && player.exciteSlider.value == 1)
+            if (!_timeStopUI.activeSelf && player.Excitement >= 1)
             {
-                Debug.Log("TimeStop");
                 StopTime(true);
             }
         }
 
         if (Input.GetButtonDown("Crouch"))
         {
-            Debug.Log("Crouch" + crouch);
             Crouch(crouch = !crouch);
         }
 
@@ -75,12 +68,16 @@ public class PlayerAction : MonoBehaviour
 
     public void StopTime(bool stopTime)
     {
-        TimeStopUI.SetActive(stopTime);
-        
-        if(stopTime)
+        _timeStopUI.SetActive(stopTime);
+
+        if (stopTime)
+        {
             GameManager.Instance.ControllableTimeScale = 0;
-        else
+        }
+        else 
+        {
             GameManager.Instance.ControllableTimeScale = 1;
+        }
     }
 
     public void Crouch(bool crouch)
@@ -105,5 +102,4 @@ public class PlayerAction : MonoBehaviour
         yield return new WaitForSeconds(2.0f);
         HitBox.SetActive(false);
     }
-
 }
