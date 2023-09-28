@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ThirdPersonCameraController : MonoBehaviour
 {
@@ -12,20 +13,27 @@ public class ThirdPersonCameraController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-    void LateUpdate()
+    private void LateUpdate()
     {
         CamControl();
     }
 
     void CamControl()
     {
-        mouseX += Input.GetAxis("Mouse X") * RotationSpeed;
-        mouseY -= Input.GetAxis("Mouse Y") * RotationSpeed;
         mouseY = Mathf.Clamp(mouseY, -35, 60);
 
         transform.LookAt(Target);
 
         Target.rotation = Quaternion.Euler(mouseY, mouseX, 0);
         Player.rotation = Quaternion.Euler(0, mouseX, 0);
+    }
+
+    public void Rotate(InputAction.CallbackContext context)
+    {
+        Vector2 newVector = context.ReadValue<Vector2>();
+
+        mouseX += newVector.x * RotationSpeed;
+        mouseY -= newVector.y * RotationSpeed;
+        mouseY = Mathf.Clamp(mouseY, -35, 60);
     }
 }

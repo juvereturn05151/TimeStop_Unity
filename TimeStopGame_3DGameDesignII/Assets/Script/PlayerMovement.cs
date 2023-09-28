@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEngine.InputSystem;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -11,8 +10,9 @@ public class PlayerMovement : MonoBehaviour
 
     private CharacterController characterController;
     private Animator animator;
-
-
+    private Vector2 input;
+    private Vector3 horizontal;
+    private Vector3 vertical;
 
     float noise;
 
@@ -26,17 +26,22 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        var horizontal = Input.GetAxis("Horizontal") * transform.right;
-        var vertical = Input.GetAxis("Vertical") * transform.forward;
-
-        var movement = horizontal + vertical;
+        horizontal = input.x * transform.right;
+        vertical = input.y * transform.forward;
 
         noise = (horizontal.magnitude + vertical.magnitude) / noiseDivider;
 
-        characterController.SimpleMove(movement * Time.deltaTime * moveSpeed);
+        var movement = horizontal + vertical;
 
-        animator.SetFloat("SpeedX", Input.GetAxis("Horizontal"));
-        animator.SetFloat("SpeedY", Input.GetAxis("Vertical"));
+        characterController.SimpleMove(movement * Time.deltaTime * moveSpeed);
+    }
+
+    public void Move(InputAction.CallbackContext context)
+    {
+        input = context.ReadValue<Vector2>();
+
+        animator.SetFloat("SpeedX", input.x);
+        animator.SetFloat("SpeedY", input.y);
     }
 
     public float GetNoise()

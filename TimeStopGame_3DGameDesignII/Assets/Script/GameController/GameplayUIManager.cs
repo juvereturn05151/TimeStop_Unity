@@ -8,7 +8,7 @@ namespace JuveProduction.GameSystem
     {
         public static GameplayUIManager Instance = null;
 
-        public static bool HasInstance = (Instance != null);
+        public static bool HasInstance => (Instance != null);
 
         [SerializeField]
         private GameObject _timeStopUI;

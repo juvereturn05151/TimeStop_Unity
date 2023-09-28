@@ -34,6 +34,11 @@ public class PlayerAction : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!GameplayUIManager.HasInstance ) 
+        {
+            Debug.Log("No Instance");
+        }
+
         if (_timeStopUI.activeSelf)
         {
             player.DecreaseExcitement(0.1f);
