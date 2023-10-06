@@ -1,8 +1,20 @@
 ﻿using UnityEngine;
 using JuveProduction.GameSystem;
+using System.Collections.Generic;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField]
+    private List<PlayerAction> _playerActions;
+
+    private Animator _animator;
+
+    public Animator Animator => _animator;
+
+    private CharacterController _characterController;
+
+    public CharacterController CharacterController => _characterController;
+
     private float _excitement;
 
     private PlayerMovement _playerMovement;
@@ -21,6 +33,8 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        _animator = GetComponentInChildren<Animator>();
+        _characterController = GetComponent<CharacterController>();
         _playerMovement = GetComponent<PlayerMovement>();
 
         if (GameplayUIManager.HasInstance) 
@@ -29,6 +43,14 @@ public class Player : MonoBehaviour
         }
          
         Excitement = 0;
+
+        if (_playerActions != null && _playerActions.Count > 0) 
+        {
+            foreach (PlayerAction _playerAction in _playerActions) 
+            {
+                _playerAction.InitAction(this);
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)

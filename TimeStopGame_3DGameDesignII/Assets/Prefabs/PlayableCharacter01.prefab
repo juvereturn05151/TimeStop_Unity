@@ -13,9 +13,11 @@ GameObject:
   - component: {fileID: 9175180599186704786}
   - component: {fileID: 9175180599186704790}
   - component: {fileID: 9175180599186704791}
-  - component: {fileID: 9175180599186704784}
   - component: {fileID: 9175180599186704785}
   - component: {fileID: 6088759492998497462}
+  - component: {fileID: 3370049966009130100}
+  - component: {fileID: 2977012073484509714}
+  - component: {fileID: 3769468241303913637}
   m_Layer: 0
   m_Name: PlayableCharacter01
   m_TagString: Player
@@ -71,6 +73,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56792667d6491494fbdd1f0c86259d84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerActions:
+  - {fileID: 3370049966009130100}
+  - {fileID: 2977012073484509714}
+  - {fileID: 3769468241303913637}
 --- !u!114 &9175180599186704790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100,19 +106,6 @@ MonoBehaviour:
   RotationSpeed: 1
   Target: {fileID: 9175180599960888562}
   Player: {fileID: 9175180599186704788}
---- !u!114 &9175180599186704784
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9175180599186704795}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 534137d39d6b5c1438956f6d06ed1fe5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HitBox: {fileID: 9175180600926145481}
 --- !u!114 &9175180599186704785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,7 +122,7 @@ MonoBehaviour:
   soundIntensity: 0
   soundAttenuation: 0
   WallThickNess: 0
-  _player: {fileID: 0}
+  _player: {fileID: 9175180599186704786}
 --- !u!114 &6088759492998497462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,11 +181,80 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: ff404cf5-f792-405a-96b2-3cd6670941cc
     m_ActionName: PlayerControl/Rotate[/Mouse/position/x,/Mouse/position/y]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3769468241303913637}
+        m_TargetAssemblyTypeName: PlayerCrouch, Assembly-CSharp
+        m_MethodName: Crouch
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: d6acc66a-05fc-419c-ac5a-ff12dc718545
+    m_ActionName: PlayerControl/Crouch[/Keyboard/ctrl]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2977012073484509714}
+        m_TargetAssemblyTypeName: PlayerStopTime, Assembly-CSharp
+        m_MethodName: StopTime
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: e9060e60-1597-464d-b5cf-27e400fef002
+    m_ActionName: PlayerControl/StopTime[/Keyboard/t]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: PlayerControl
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &3370049966009130100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9175180599186704795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b05f18262825fc24fbb5fe57bf5dccf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hitBox: {fileID: 9175180600926145481}
+--- !u!114 &2977012073484509714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9175180599186704795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6d240be0761e494ba6e1d503eeff4a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3769468241303913637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9175180599186704795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2acf0fb1cb1bcf64fb137f28c0047359, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9175180599960888561
 GameObject:
   m_ObjectHideFlags: 0
