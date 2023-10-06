@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 9175180599186704788}
   - component: {fileID: 9175180599186704789}
+  - component: {fileID: 9175180599186704786}
   - component: {fileID: 9175180599186704790}
   - component: {fileID: 9175180599186704791}
   - component: {fileID: 9175180599186704784}
-  - component: {fileID: 9175180599186704786}
   - component: {fileID: 9175180599186704785}
   - component: {fileID: 6088759492998497462}
   m_Layer: 0
@@ -59,6 +59,18 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &9175180599186704786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9175180599186704795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56792667d6491494fbdd1f0c86259d84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &9175180599186704790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,18 +113,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HitBox: {fileID: 9175180600926145481}
---- !u!114 &9175180599186704786
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9175180599186704795}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56792667d6491494fbdd1f0c86259d84, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &9175180599186704785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,7 +128,8 @@ MonoBehaviour:
   tagWall: Wall
   soundIntensity: 0
   soundAttenuation: 0
-  emitterObject: {fileID: 9175180599186704795}
+  WallThickNess: 0
+  _player: {fileID: 0}
 --- !u!114 &6088759492998497462
 MonoBehaviour:
   m_ObjectHideFlags: 0

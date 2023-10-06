@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
     private float _excitement;
 
     private PlayerMovement _playerMovement;
+    public PlayerMovement PlayerMovement => _playerMovement;
 
     private GameplayUIManager _gameplayUIManager;
 
@@ -55,11 +56,6 @@ public class Player : MonoBehaviour
     {
         Excitement = targetExcitement;
         OnExcitementChange();
-    }
-
-    public PlayerMovement GetPlayerMovement()
-    {
-        return _playerMovement;
     }
 
     private void OnExcitementChange() 

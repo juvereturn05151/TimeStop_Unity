@@ -1,25 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+
 public class SoundEmitter : MonoBehaviour
 {
-    public string tagWall = "Wall";
-    float WallThickNess = 0.0f;
+    [SerializeField]
+    private string tagWall = "Wall";
+    [SerializeField]
+    private float soundIntensity;
+    [SerializeField]
+    private float soundAttenuation;
+    [SerializeField]
+    private float WallThickNess = 0.0f;
+    [SerializeField]
+    private Player _player;
 
-    public float soundIntensity;
-    public float soundAttenuation;
-    public GameObject emitterObject;
     private Dictionary<int, SoundReceiver> receiverDic;
-
-    // optional
-    public Dictionary<string, float> wallTypes;
 
     private void Awake()
     {
         receiverDic = new Dictionary<int, SoundReceiver>();
 
-        if (emitterObject == null) 
+        if (_player == null) 
         {
-            emitterObject = gameObject;
+            _player = GetComponent<Player>();
         } 
     }
 
@@ -58,28 +61,30 @@ public class SoundEmitter : MonoBehaviour
     public void Emit()
     {
         GameObject srObj;
-        Vector3 srPos;
+        Vector3 soundReceiverPos;
         float intensity;
         float distance;
-        Vector3 emitterPos = emitterObject.transform.position;
+        Vector3 emitterPos = _player.transform.position;
+
         foreach (SoundReceiver sr in receiverDic.Values)
         {
             srObj = sr.gameObject;
-            srPos = srObj.transform.position;
-            distance = Vector3.Distance(srPos, emitterPos);
+            soundReceiverPos = srObj.transform.position;
+            distance = Vector3.Distance(soundReceiverPos, emitterPos);
             intensity = 0;
-            if (GetComponent<Player>().GetPlayerMovement())
+
+            if (_player.PlayerMovement)
             {
-                intensity += GetComponent<Player>().GetPlayerMovement().GetNoise();
+                intensity += _player.PlayerMovement.Noise;
             }
 
             intensity -= soundAttenuation * distance;
-            // optional
-            intensity -= GetWallAttenuation(emitterPos, srPos);
 
-            if (GetComponent<Player>() != null)
+            intensity -= GetWallAttenuation(emitterPos, soundReceiverPos);
+
+            if (_player != null)
             {
-                GetComponent<Player>().IncreaseExcitement(GetComponent<Player>().GetPlayerMovement().GetNoise());
+                _player.IncreaseExcitement(_player.PlayerMovement.Noise);
             }
             
             if (intensity < sr.soundThreshold) 

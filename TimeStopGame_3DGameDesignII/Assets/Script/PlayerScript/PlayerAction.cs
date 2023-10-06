@@ -34,11 +34,6 @@ public class PlayerAction : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!GameplayUIManager.HasInstance ) 
-        {
-            Debug.Log("No Instance");
-        }
-
         if (_timeStopUI.activeSelf)
         {
             player.DecreaseExcitement(0.1f);
@@ -77,11 +72,11 @@ public class PlayerAction : MonoBehaviour
 
         if (stopTime)
         {
-            GameManager.Instance.ControllableTimeScale = 0;
+            GameManager.Instance.SetControllableTimeScale(0);
         }
         else 
         {
-            GameManager.Instance.ControllableTimeScale = 1;
+            GameManager.Instance.SetControllableTimeScale(1);
         }
     }
 

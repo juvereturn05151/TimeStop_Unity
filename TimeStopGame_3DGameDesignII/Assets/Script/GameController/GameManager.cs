@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 
     public static bool HasInstance => (Instance != null);
 
-    public float ControllableTimeScale = 1.0f;
+    public float ControllableTimeScale { get; private set; }
 
     private void Awake()
     {
@@ -17,5 +17,15 @@ public class GameManager : MonoBehaviour
         }
 
         Instance = this;
+    }
+
+    private void Start()
+    {
+        ControllableTimeScale = 1.0f;
+    }
+
+    public void SetControllableTimeScale(float newDeltaTime) 
+    {
+        ControllableTimeScale = newDeltaTime;
     }
 }
